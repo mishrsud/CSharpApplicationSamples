@@ -1,0 +1,19 @@
+version: "2"
+
+services:
+  sqldev:
+    image: "microsoft/mssql-server-linux"
+    ports:
+      - "1433:1433"
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "SA_PASSWORD=G00d1!G00d1!"
+    container_name: sqldev
+    restart: unless-stopped
+    networks:
+      services:
+        aliases:
+          - sqldev
+
+networks:
+  services:

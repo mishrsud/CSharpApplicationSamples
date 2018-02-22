@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbTransactionDapper", "Startup\DbTransactionDapper.csproj", "{4A772F17-BAC4-42D0-8673-74BA0DA733EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FakeBusinessLogic", "FakeBusinessLogic\FakeBusinessLogic.csproj", "{8B510A42-A434-4D9C-AA6B-025C2438893B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A772F17-BAC4-42D0-8673-74BA0DA733EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A772F17-BAC4-42D0-8673-74BA0DA733EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A772F17-BAC4-42D0-8673-74BA0DA733EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A772F17-BAC4-42D0-8673-74BA0DA733EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B510A42-A434-4D9C-AA6B-025C2438893B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B510A42-A434-4D9C-AA6B-025C2438893B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B510A42-A434-4D9C-AA6B-025C2438893B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B510A42-A434-4D9C-AA6B-025C2438893B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA48E80F-4CB1-47BE-81C6-9A896643FDD7}
+	EndGlobalSection
+EndGlobal
