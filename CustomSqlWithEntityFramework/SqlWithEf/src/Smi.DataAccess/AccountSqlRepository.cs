@@ -22,7 +22,7 @@ namespace Smi.DataAccess
 
         public IEnumerable<Account> GetAccountsForUser(int userId, bool activeOnly)
         {
-            var parameters = new List<SqlParameter>();
+            var parameters = new List<object>();
             parameters.Add(new SqlParameter("@UserId", userId));
             parameters.Add(new SqlParameter("@ActiveOnly", userId));
 
