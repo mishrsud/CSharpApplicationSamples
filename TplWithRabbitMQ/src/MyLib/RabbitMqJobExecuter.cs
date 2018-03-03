@@ -8,39 +8,46 @@ namespace MyLib
 {
     public class RabbitMqJobExecuter
     {
-        public void SubscribeToQueueUntilCancelled(CancellationToken cancellationToken)
+        private IModel _channel;
+        private IConnection _connection;
+
+        public void SubscribeToQueueUntilCancelled()
         {
-            Console.WriteLine($"Working, ThreadPool: {Thread.CurrentThread.IsThreadPoolThread}, Thread ID: {Thread.CurrentThread.ManagedThreadId}");
+            Console.WriteLine(
+                $"Working, ThreadPool: {Thread.CurrentThread.IsThreadPoolThread}, Thread ID: {Thread.CurrentThread.ManagedThreadId}");
             var factory = new ConnectionFactory
             {
                 HostName = "localhost",
                 UserName = "admin",
-                Password = "admin"
+                Password = "Passw0rd1"
             };
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
+
+            _connection = factory.CreateConnection("Subscriber");
+            _channel = _connection.CreateModel();
+            _channel.QueueDeclare(
+                queue: Constants.QueueName,
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+
+            // EventingBasicConsumer fires the handler subscribed to consumer.Received event
+            // As long as the thread containing this code is running
+            var consumer = new EventingBasicConsumer(_channel);
+            consumer.Received += (model, ea) =>
             {
-                channel.QueueDeclare(
-                    queue: "hello",
-                    durable: true,
-                    exclusive: false,
-                    autoDelete: false,
-                    arguments: null);
+                var body = ea.Body;
+                
+                var message = Encoding.UTF8.GetString(body);
+                Console.WriteLine($" [ _/ ] Received {message}, Correlation Id: {ea.BasicProperties.CorrelationId}");
+            };
+            _channel.BasicConsume(queue: Constants.QueueName, noAck: true, consumer: consumer);
+        }
 
-                // EventingBasicConsumer fires the handler subscribed to consumer.Received event
-                // As long as the thread containing this code is running
-                var consumer = new EventingBasicConsumer(channel);
-                consumer.Received += (model, ea) =>
-                {
-                    var body = ea.Body;
-                    var message = Encoding.UTF8.GetString(body);
-                    Console.WriteLine($" [x] Received {message}");
-                };
-                channel.BasicConsume(queue: "hello", noAck: true, consumer: consumer);
-
-                cancellationToken.WaitHandle.WaitOne();
-                Console.WriteLine($"Exiting consumer, ThreadPool: {Thread.CurrentThread.IsThreadPoolThread}, Thread ID: {Thread.CurrentThread.ManagedThreadId}");
-            }
+        public void Stop()
+        {
+            _channel?.Dispose();
+            _connection?.Dispose();
         }
     }
 }

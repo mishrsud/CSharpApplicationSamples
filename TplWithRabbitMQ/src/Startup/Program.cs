@@ -1,46 +1,46 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MyLib;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Framing;
+using Constants = MyLib.Constants;
 
 namespace Startup
 {
-    class Program
+    internal class Program
     {
         private static CancellationTokenSource _cancellationTokenSource;
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             _cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = _cancellationTokenSource.Token;
-
+            var executor = new RabbitMqJobExecuter();
+            
             Task.Run(() =>
             {
                 Send();
             }, cancellationToken);
 
             /* RUN AS A DEDICATED THREAD */
-            //Task.Factory.StartNew(() =>
-            //{
-            //    var executor = new RabbitMqJobExecuter();
-            //    executor.SubscribeToQueueUntilCancelled(cancellationToken);
-            //}, TaskCreationOptions.LongRunning);
+//            Task.Factory.StartNew(() =>
+//            {
+//                executor.SubscribeToQueueUntilCancelled();
+//            }, TaskCreationOptions.LongRunning);
 
             /* RUN ON A THREAD POOL THREAD */
             Task.Run(() =>
             {
-                var executor = new RabbitMqJobExecuter();
-                executor.SubscribeToQueueUntilCancelled(cancellationToken);
+                executor.SubscribeToQueueUntilCancelled();
             }, cancellationToken);
 
 
             Console.WriteLine("In Main, Done, Press enter to stop sending messages");
             Console.ReadLine();
             _cancellationTokenSource.Cancel();
+            executor.Stop();
             Console.WriteLine("After cancellation, press any key to terminate");
 
             Console.ReadLine();
@@ -52,28 +52,33 @@ namespace Startup
             {
                 HostName = "localhost",
                 UserName = "admin",
-                Password = "admin"
+                Password = "Passw0rd1"
             };
-            using (var connection = factory.CreateConnection())
+            using (var connection = factory.CreateConnection("Publisher"))
             using (var channel = connection.CreateModel())
             {
+                // QueueDeclare ensures the Queue is created if does not exist on the
+                // Specified vshost
                 channel.QueueDeclare(
-                    queue: "hello",
+                    queue: Constants.QueueName,
                     durable: true,
                     exclusive: false,
                     autoDelete: false,
                     arguments: null);
                 while (!_cancellationTokenSource.IsCancellationRequested)
                 {
-                    string message = $"Hello RabbitMQ! {DateTime.UtcNow}";
+                    string message = $"{DateTime.UtcNow} | Hello RabbitMQ! ";
                     var body = Encoding.UTF8.GetBytes(message);
-
+                    var correlationId = Guid.NewGuid().ToString();
                     channel.BasicPublish(
                         exchange: "",
-                        routingKey: "hello",
-                        basicProperties: null,
+                        routingKey: Constants.QueueName,
+                        basicProperties: new BasicProperties
+                        {
+                            CorrelationId = correlationId
+                        }, 
                         body: body);
-                    Console.WriteLine("Message sent");
+                    Console.WriteLine($" [ _/ ] Message sent, CorrelationId: {correlationId} ");
                     Console.WriteLine("--------------");
                     Task.Delay(TimeSpan.FromSeconds(2)).Wait();
                 }
