@@ -10,7 +10,7 @@ namespace Sample.BusinessLogic
         {
             _featureFlagStore = new Dictionary<string, bool>
             {
-                { "test-feature", false }
+                { "test-feature", true }
             };
         }
 
