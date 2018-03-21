@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smi.DataAccess", "src\Smi.DataAccess\Smi.DataAccess.csproj", "{A976DA14-3F0C-4FA6-A065-3919E489BC39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smi.DataAccess.Test", "src\Smi.DataAccess.Test\Smi.DataAccess.Test.csproj", "{CE41D313-A0A8-4425-842B-5BAD2071FD71}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A976DA14-3F0C-4FA6-A065-3919E489BC39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A976DA14-3F0C-4FA6-A065-3919E489BC39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A976DA14-3F0C-4FA6-A065-3919E489BC39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A976DA14-3F0C-4FA6-A065-3919E489BC39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE41D313-A0A8-4425-842B-5BAD2071FD71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE41D313-A0A8-4425-842B-5BAD2071FD71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE41D313-A0A8-4425-842B-5BAD2071FD71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE41D313-A0A8-4425-842B-5BAD2071FD71}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C2041051-F6F5-49FE-A5E1-9033965F62C1}
+	EndGlobalSection
+EndGlobal

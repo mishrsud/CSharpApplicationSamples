@@ -2,7 +2,7 @@ version: "2"
 
 services:
   rabbitmq:
-    image: "rabbitmq:3.6.14-management"
+    image: "rabbitmq:3.6.15-management"
     ports:
       - "15672:15672" # management port (guest:guest)
       - "5672:5672"   # amqp port
@@ -10,13 +10,13 @@ services:
     environment:
       - "RABBITMQ_NODENAME=my-rabbit"
       - "RABBITMQ_DEFAULT_USER=admin"
-      - "RABBITMQ_DEFAULT_PASS=Password"
+      - "RABBITMQ_DEFAULT_PASS=Passw0rd1"
     container_name: rabbitmq
     restart: unless-stopped
     networks:
-      bsl:
+      svc:
         aliases:
           - rabbitmq
 
 networks:
-  bsl:
+  svc:
